@@ -10,6 +10,7 @@ export default function NavBar() {
           <nav className="md:flex gap-6 text-sm font-medium">
             <NavLink to="/" className="hover:text-primary transition-colors">Home</NavLink>
             <NavLink to="/post" className="hover:text-primary transition-colors">Posts</NavLink>
+            <NavLink to="/category" className="hover:text-primary transition-colors">Categories</NavLink>
           </nav>
         </div>
     </header>

@@ -1,4 +1,4 @@
-import { PostListCard } from "@/components/PostListCard";
+import { PostListCard, PostListCardSkeleton } from "@/components/PostListCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MyPagination } from "@/components/MyPagination";
@@ -20,7 +20,7 @@ export default function PostListPage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/api/post/list?page=${page-1}`);
+        const response = await axios.get(`/api/post/list?page=${page - 1}`);
         if (!response.data.empty) {
           setPosts(response.data.content);
           setTotalPages(response.data.totalPages);
@@ -38,24 +38,25 @@ export default function PostListPage() {
     <>
       <div className="text-center mb-16 space-y-4">
         <h2 className="text-4xl md:text-5xl font-extrabold">
-          글 목록
+          전체 글 목록
         </h2>
       </div>
       <div className="grid grid-cols-1 gap-6">
-        {loading ? Array.from({ length: 5 }).map((_, index) => (
-            <PostListCard key={index} loading={true}></PostListCard>
+        {loading ?
+          Array.from({ length: 6 }).map((_, index) => (
+            <PostListCardSkeleton key={index}></PostListCardSkeleton>
           )) :
           posts.map((post) => (
             <PostListCard
               key={post.id}
               id={post.id}
               title={post.title}
-              summary={post.summary+"..."}
+              summary={post.summary + "..."}
               date={post.createdDate}
             />
           ))}
       </div>
-      { totalPages > 1 && (
+      {totalPages > 1 && (
         <MyPagination
           currentPage={page}
           totalPages={totalPages}

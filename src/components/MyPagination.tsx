@@ -26,7 +26,9 @@ export function MyPagination({ currentPage, totalPages, onPageChange }: Paginati
               isActive={page === currentPage}
               onClick={(e) => {
                 e.preventDefault();
-                onPageChange(page);
+                if (page !== currentPage) {
+                  onPageChange(page);
+                }
               }}
             >{page}</PaginationLink>
           </PaginationItem>

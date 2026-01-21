@@ -2,24 +2,20 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 
 interface BlogPostProps {
   title: string;
   summary: string;
-  category: string;
-  author: string;
   date: string;
   image?: string;
 }
 
-export function BlogCard({ title, summary, category, author, date, image }: BlogPostProps) {
+export function BlogCard({ title, summary, date, image }: BlogPostProps) {
+  const category = "Development";
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300">
       {/* 썸네일 이미지 영역 */}
@@ -49,21 +45,6 @@ export function BlogCard({ title, summary, category, author, date, image }: Blog
       <CardContent className="grow">
         {/* 필요한 경우 추가 내용 배치 */}
       </CardContent>
-
-      <CardFooter className="flex justify-between items-center border-t p-4 bg-slate-50 dark:bg-slate-900/50">
-        <div className="flex items-center space-x-2">
-          <Avatar className="w-6 h-6">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
-            {author}
-          </span>
-        </div>
-        <Button variant="ghost" size="sm" className="text-xs">
-          Read More →
-        </Button>
-      </CardFooter>
     </Card>
   )
 }
