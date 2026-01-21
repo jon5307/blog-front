@@ -52,7 +52,7 @@ export default function CategoryPage() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`/api/post/list?categoryId=${selectedCategory ?? ""}&size=100`);
-        if (!response.data.empty) {
+        if (response.status === 200) {
           setPosts(response.data.content);
         }
       } catch (error) {
