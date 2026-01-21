@@ -9,6 +9,9 @@ import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import remarkBreaks from "remark-breaks"
 import { Skeleton } from "@/components/ui/skeleton"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
+import "katex/dist/katex.min.css"
 
 interface Post {
   content: string;
@@ -26,7 +29,7 @@ export default function PostPage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/api/post/detail/${id}`);
+        const response = await axios.get(`/api/post/detail?id=${id}`);
         setData(response.data)
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -59,7 +62,7 @@ export default function PostPage() {
         {/* 2. 헤더 섹션 (제목 + 메타 정보) */}
         <div className="space-y-6 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight lg:leading-[1.1]">
-            <Skeleton className="h-5 w-[300px]" />
+            <Skeleton className="h-5 w-75" />
           </h1>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
@@ -68,7 +71,7 @@ export default function PostPage() {
               <div className="flex items-center gap-1">
                 <CalendarDays className="h-4 w-4" />
                 <span>
-                  <Skeleton className="h-5 w-[100px]" />
+                  <Skeleton className="h-5 w-25" />
                 </span>
               </div>
             </div>
@@ -87,7 +90,7 @@ export default function PostPage() {
         {/* 4. 본문 내용 */}
         <div className="prose prose-slate dark:prose-invert max-w-none mt-8">
           {/* 줄바꿈 처리를 위해 whitespace-pre-line 사용 */}
-          <Skeleton className="h-[200px] w-full mb-2" />
+          <Skeleton className="h-50 w-full mb-2" />
         </div>
 
       </article>
@@ -148,7 +151,8 @@ export default function PostPage() {
       {/* 4. 본문 내용 */}
       <div className="prose prose-slate dark:prose-invert max-w-none mt-8">
         {/* 줄바꿈 처리를 위해 whitespace-pre-line 사용 */}
-        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+        rehypePlugins={[rehypeKatex]}>
           {data.content}
         </ReactMarkdown>
       </div>
