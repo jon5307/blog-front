@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage"
 import PostListPage from "./pages/PostListPage"
 import PostPage from "./pages/PostPage"
 import CategoryPage from "./pages/CategoryPage"
+import LoginPage from "./pages/LoginPage"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/post" element={<PostListPage />} />
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/post/:id" element={<PostPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </main>
       <Footer />
