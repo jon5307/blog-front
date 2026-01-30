@@ -4,18 +4,18 @@ import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { PostListCard } from "@/components/PostListCard";
 import axios from "axios";
+import PostList from "@/components/PostLIst";
 
 interface Category {
   id: number;
   name: string;
   description: string;
+  postCount: number;
 }
 
 interface Post {
@@ -30,7 +30,6 @@ export default function CategoryPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -47,21 +46,6 @@ export default function CategoryPage() {
     }
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get(`/api/post/list?categoryId=${selectedCategory ?? ""}&size=100`);
-        if (response.status === 200) {
-          setPosts(response.data.content);
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    }
-    fetchPosts();
-  }, [selectedCategory]);
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -144,32 +128,11 @@ export default function CategoryPage() {
             </h3>
           </div>
           <Badge variant="secondary" className="w-fit">
-            {posts.length} posts
+            {categories.find((category) => category.id === selectedCategory)?.postCount} posts
           </Badge>
         </div>
 
-        {posts.length === 0 ? (
-          <Card className="border-dashed">
-            <CardHeader className="space-y-2">
-              <CardTitle className="text-lg">아직 작성된 글이 없습니다</CardTitle>
-              <CardDescription>
-                다른 카테고리를 선택하거나 곧 업데이트될 콘텐츠를 기다려주세요.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 gap-6">
-            {posts.map((post) => (
-              <PostListCard
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                summary={post.summary}
-                date={post.createdDate}
-              />
-            ))}
-          </div>
-        )}
+        <PostList categoryId={selectedCategory} />
       </div>
     </section>
   );
